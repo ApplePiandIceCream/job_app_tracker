@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
+
+
+</head>
+
+<body>
+    <main>
+        {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %}
+        <div class="container mt-3"> {% for category, message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert"> {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        <div class="container">
+            <div class="row">
+                <h1 class="my-4 text-center pt-3 pb-3">Job Application Tracker</h1>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8 mb-4">
+                    <div class=" card custom-card shadow-sm h-100">
+                        <div class="card-body">
+                            <h5 class="card-title mb-2">Add an application: </h5>
+                            <p class="card-text">
+                            <form method="POST" action="/">
+                                <div class="form-group">
+                                    <div class="mb-3">
+                                        <label for="company">Company: </label>
+                                        <input type="text" class="form-control" id="company" name="company" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="jobTitle">Job title: </label>
+                                        <input type="text" class="form-control" id="jobTitle" name="jobTitle" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="dateApplied">Date applied: </label>
+                                        <input type="date" class="form-control" id="dateApplied" name="dateApplied">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="status">Status: </label>
+                                        <select class="form-control" id="status" name="status" required>
+                                            <option value="applied">Applied</option>
+                                            <option value="interview">Interview</option>
+                                            <option value="offer">Offer</option>
+                                            <option value="rejected">Rejected</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="notes">Notes: </label>
+                                        <textarea class="form-control" id="notes" name="notes" rows="3"></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary"> Save </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <h2 class="my-4 text-center">My Applications </h2>
+            </div>
+            <div class="row justify justify-content-center">
+                <div class="col-12 col-md-8 mb-4">
+                    <div class=" card filter-card shadow-none h-100">
+                        <div class="card-body">
+                            <h4 class="card-title mb-2 pb-2">Filter applications </h4>
+                            <div class="mb-3">
+                                <form method="GET" action="/">
+                                    <div class="mb-3">
+                                        <label for="search" class="form-label">Search by company or job title:</label>
+                                        <input type="text" class="form-control mb-4" name="q"
+                                            placeholder="search for company or job title here"
+                                            value="{{ request.args.get('q', '') }}">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="dropdown-update" class="form-label">Filter by status: </label>
+                                        <select class="form-select" name="status_filter">
+                                            <option value="">All Statuses</option>
+                                            <option value="applied" {% if request.args.get('status_filter')=='applied'
+                                                %}selected{% endif %}>
+                                                Applied</option>
+                                            <option value="interview" {% if
+                                                request.args.get('status_filter')=='interview' %}selected{% endif %}>
+                                                Interview</option>
+                                            <option value="offer" {% if request.args.get('status_filter')=='offer'
+                                                %}selected{% endif %}>Offer</option>
+                                            <option value="rejected" {% if request.args.get('status_filter')=='rejected'
+                                                %}selected{% endif %}>
+                                                Rejected</option>
+                                        </select>
+                                    </div>
+                                    <div class="d-flex flex-column flex-md-row justify-content-md-between gap-2">
+                                        <button class="btn btn-primary" type="submit">Filter</button>
+                                        <a href="/" class="btn btn-secondary btn-cust-size">Clear Filter</a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8 mb-4">
+                    {% if applications %}
+                    <div class="d-block">
+                        {% for app in applications %}
+                        <div class=" card custom-card shadow-sm h-100 mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ app.company }} - {{ app.job_title }}</h5>
+                                <p class="card-text"><strong>Date Applied: </strong> {{
+                                    app.date_applied.strftime('%Y-%m-%d') if
+                                    app.date_applied else '' }}</p>
+                                <form method="POST" action="/update/{{ app.id }}">
+                                    <div
+                                        class="d-flex flex-column flex-md-row align-md-items-center justify-content-between">
+                                        <div class="me-2">
+                                            <label for="status-{{ app.id }}"
+                                                class="form-label mt-2 me-2"><strong>Status: </strong> </label>
+                                        </div>
+                                        <div class="me-2 flex-grow-1">
+                                            <select id="status-{{ app.id }}" name="status"
+                                                class="form-select mb-2 me-2">
+                                                <option value="applied" {% if app.status=='applied' %}selected{% endif
+                                                    %}>
+                                                    Applied
+                                                </option>
+                                                <option value="interview" {% if app.status=='interview' %}selected{%
+                                                    endif %}>
+                                                    Interview</option>
+                                                <option value="offer" {% if app.status=='offer' %}selected{% endif %}>
+                                                    Offer</option>
+                                                <option value="rejected" {% if app.status=='rejected' %}selected{% endif
+                                                    %}>
+                                                    Rejected
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-auto">
+                                            <button type="submit" class="btn btn-primary mb-2">update</button>
+                                        </div>
+                                    </div>
+
+                                </form>
+                                <p class="card-text mt-2"><strong>Notes: </strong>
+                                    <span class="notes-short">
+                                        {{ app.notes[:100] }}{% if app.notes|length > 100 %}...{% endif %}
+                                    </span>
+                                    <span class="notes-full d-none">
+                                        {{ app.notes }}
+                                    </span>
+                                </p>
+                                {% if app.notes and app.notes|length > 100 %}
+                                <div class="text-end">
+                                    <button type="button" class="btn btn-sm p-1 toggle-notes">
+                                        Show more
+                                    </button>
+                                </div>
+                                {% endif %}
+
+                                <form method="POST" action="/delete/{{ app.id }}" style="display:inline;"
+                                    class="delete-form">
+                                    <button type="submit" class="btn btn-sm btn-danger mt-2">Delete</button>
+                                </form>
+
+                            </div>
+
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <p> No applications saved</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+    <footer class="mt-auto py-3 bg-light custom-footer">
+
+        <div class="container">
+
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
+
+                <p class="text-start m-0">
+                    Job Application Tracker
+                    <span class="d-none d-md-inline ms-3">|</span>
+                    <span class="d-block d-md-inline mt-1 mt-md-0">
+                        Author: Mae Rischer
+                    </span>
+                </p>
+
+                <a href="mailto:m.rischer@hotmail.co.uk" class="footer-link ms-3">Contact</a>
+            </div>
+
+        </div>
+
+        </div>
+    </footer>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
+        integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y"
+        crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>

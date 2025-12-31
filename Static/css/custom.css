@@ -1,0 +1,59 @@
+:root {
+    --bs-body-bg: #F4F9FA;
+    --bs-body-color: #172D36;
+}
+
+h1 {
+    color: #172D36;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #A3B1B5;
+    padding-bottom: 1.5rem;
+}
+
+h2, h5 {
+    color: #2D4A53;
+    font-weight: 600;
+    
+}
+
+
+.btn-primary {
+    --bs-btn-bg: #47636B;
+    --bs-btn-color: #F4F9FA;
+    --bs-btn-border-color: #47636B;
+    --bs-btn-hover-bg: #2D4A53;
+    --bs-btn-hover-border-color: #2D4A53;
+    --bs-btn-active-bg: #172D36;
+    --bs-btn-active-border-color: #172D36;
+    font-weight: 600;
+    width: 110px;
+}
+
+.btn-cust-size {
+    width: 110px;
+}
+
+.toggle-notes {
+    color: #47636B;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.toggle-notes:hover {
+    color: #2D4A53;
+    text-decoration: underline;
+}
+
+.filter-card {
+    background-color: #ffffff;
+    border: 2px solid #2D4A53;
+}
+.custom-card {
+    border: 1px solid #47636B;
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+

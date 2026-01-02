@@ -8,10 +8,6 @@ from datetime import datetime
 load_dotenv()
 #Create Flask app 
 app = Flask(__name__)
-
-if __name__ == "__main__":
-    app.run()
-
 #SQLite database 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
     "DATABASE_URL", "sqlite:///jobs.db")

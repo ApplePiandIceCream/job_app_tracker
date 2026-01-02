@@ -1,14 +1,24 @@
+import os
+from dotenv import load_dotenv
 from flask import Flask, render_template, request, redirect, flash
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime 
 
+
+load_dotenv()
+#Create Flask app 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///jobs.db'
+
+#SQLite database 
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
+    "DATABASE_URL", "sqlite:///jobs.db")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.secret_key = 'forFlash'
+#key for flash messsages
+app.secret_key = os.environ.get("SECRET_KEY", "dev-secret-key")
 
 db=SQLAlchemy(app)
 
+#Application class
 class Application(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     company = db.Column(db.String(100), nullable=False)
@@ -22,7 +32,7 @@ with app.app_context():
     db.create_all()
    # app.run(debug=True)
 
-
+#test data- runs ONLY if no existing entries
 def test_data():
     if not Application.query.first():
         test_applications = [
@@ -50,6 +60,7 @@ with app.app_context():
 @app.route("/", methods= ["GET", "POST"])
 def home():
 
+    #Add data from job application form to SQL
     if request.method=="POST":
         company = request.form.get("company")
         job_title= request.form.get("jobTitle")
@@ -76,6 +87,7 @@ def home():
         flash("Application saved", "success")
         return redirect("/")
     
+    #Filter by key word or status 
     query = Application.query
     search_term = request.args.get("q", "").strip()
     filter_status = request.args.get("status_filter", "").strip()
@@ -93,7 +105,7 @@ def home():
     return render_template('index.html', applications=applications)
 
 
-#delete card
+#delete application card
 @app.route('/delete/<int:app_id>', methods=["POST"])
 def delete_app(app_id):
     app_to_delete = Application.query.get_or_404(app_id)
@@ -102,7 +114,7 @@ def delete_app(app_id):
     flash("Application deleted", "danger")
     return redirect('/')
 
-#update status
+#update job application status
 @app.route('/update/<int:app_id>', methods=["POST"])
 def update_status(app_id):
     status_update = Application.query.get_or_404(app_id)

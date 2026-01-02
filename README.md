@@ -11,7 +11,7 @@ A simple web app to track your job applications. Built with Flask, SQLAlchemy, a
 
 ## Setup & Installation
 1. Clone the repository:
-   git clone https://github.com/yourusername/job-app-tracker.git
+   git clone https://github.com/ApplePiandIceCream/job_app_tracker.git
    cd job-app-tracker
 2. Create a virtual environment:
    python -m venv venv

@@ -36,16 +36,16 @@ with app.app_context():
 def test_data():
     if not Application.query.first():
         test_applications = [
-            Application(company="Acme Corp", job_title="Software Engineer", date_applied="2025-12-01", status="applied", notes="Excited about this role."),
-            Application(company="Globex Inc", job_title="Backend Developer", date_applied="2025-11-20", status="interview", notes="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."),
-            Application(company="Initech", job_title="Full Stack Engineer", date_applied="2025-11-15", status="offer", notes="Offer received, reviewing."),
-            Application(company="Umbrella Corp", job_title="Data Scientist", date_applied="2025-10-30", status="rejected", notes="Rejection email recd. 10/12/2025."),
-            Application(company="Hooli", job_title="DevOps Engineer", date_applied="2025-11-05", status="applied", notes="Looking forward to hearing back."),
-            Application(company="Stark Industries", job_title="Frontend Developer", date_applied="2025-11-10", status="interview", notes="First interview completed."),
-            Application(company="Wayne Enterprises", job_title="Software Architect", date_applied="2025-11-12", status="applied", notes="Batman works here. What more do you need?"),
-            Application(company="Oscorp", job_title="QA Engineer", date_applied="2025-11-18", status="offer", notes="Offer accepted!"),
-            Application(company="Wonka Industries", job_title="Product Manager", date_applied="2025-11-22", status="applied", notes="Excited about innovative projects and potential for long-term growth within the company."),
-            Application(company="Tyrell Corp", job_title="AI Specialist", date_applied="2025-11-25", status="interview", notes="Second interview scheduled."),
+            Application(company="Acme Corp", job_title="Software Engineer", date_applied=datetime.strptime("2025-12-01", "%Y-%m-%d").date(), status="applied", notes="Excited about this role."),
+            Application(company="Globex Inc", job_title="Backend Developer", date_applied=datetime.strptime("2025-11-20", "%Y-%m-%d").date(), status="interview", notes="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."),
+            Application(company="Initech", job_title="Full Stack Engineer", date_applied=datetime.strptime("2025-11-11", "%Y-%m-%d").date(), status="offer", notes="Offer received, reviewing."),
+            Application(company="Umbrella Corp", job_title="Data Scientist", date_applied=datetime.strptime("2025-12-01", "%Y-%m-%d").date(), status="rejected", notes="Rejection email recd. 10/12/2025."),
+            Application(company="Hooli", job_title="DevOps Engineer", date_applied=datetime.strptime("2025-11-05", "%Y-%m-%d").date(), status="applied", notes="Looking forward to hearing back."),
+            Application(company="Stark Industries", job_title="Frontend Developer", date_applied=datetime.strptime("2025-11-10", "%Y-%m-%d").date(), status="interview", notes="First interview completed."),
+            Application(company="Wayne Enterprises", job_title="Software Architect", date_applied=datetime.strptime("2025-12-10", "%Y-%m-%d").date(), status="applied", notes="Batman works here. What more do you need?"),
+            Application(company="Oscorp", job_title="QA Engineer", date_applied=datetime.strptime("2025-11-18", "%Y-%m-%d").date(), status="offer", notes="Offer accepted!"),
+            Application(company="Wonka Industries", job_title="Product Manager", date_applied=datetime.strptime("2025-10-01", "%Y-%m-%d").date(), status="applied", notes="Excited about innovative projects and potential for long-term growth within the company."),
+            Application(company="Tyrell Corp", job_title="AI Specialist", date_applied=datetime.strptime("2025-10-05", "%Y-%m-%d").date(), status="interview", notes="Second interview scheduled."),
         ]
         db.session.add_all(test_applications)
         db.session.commit()

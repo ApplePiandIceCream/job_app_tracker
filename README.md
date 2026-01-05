@@ -13,7 +13,7 @@ Deployment: Render (Web Service)
 Full CRUD Integration: Seamlessly add, view, update, and delete application records.
 Dynamic Filtering: Search and filter applications by company name, job title, or status.
 Relational Data Management: Utilizes SQLAlchemy to handle structured data and persistent storage.
-Responsive UI: A mobile-first dashboard featuring expandable notes for interview details.
+Responsive UI: A mobile-first dashboard featuring expandable notes for interview details. 
 User Feedback: Integrated Flask Flash messaging system for real-time action confirmation.
 
 ## 🚀 Live demo: 

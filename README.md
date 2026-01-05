@@ -7,7 +7,7 @@ A simple web app to track your job applications. Built with Flask, SQLAlchemy, a
 Backend: Python (Flask), SQLAlchemy ORM
 Database: SQLite (Relational)
 Frontend: Jinja2 Templates, Bootstrap 5, Vanilla JavaScript
-Deployment: Render (Web Service)
+Deployment: Railway (Web Service)
 
 ## ✨ Key Features
 Full CRUD Integration: Seamlessly add, view, update, and delete application records.
@@ -17,8 +17,7 @@ Responsive UI: A mobile-first dashboard featuring expandable notes for interview
 User Feedback: Integrated Flask Flash messaging system for real-time action confirmation.
 
 ## 🚀 Live demo: 
-https://job-app-tracker-75gk.onrender.com
-(Note: Hosted on Render's free tier. Please allow 30-60 seconds for the initial spin-up.)
+https://jobapptracker-production.up.railway.app
 
 ## Setup & Installation
 1. Clone the repository:
@@ -59,7 +58,7 @@ https://job-app-tracker-75gk.onrender.com
 
 **Environment Management:** Implemented python-dotenv to securely manage sensitive API keys and database URIs.
 
-**Deployment Pipelines:** Managed the transition from local SQLite development to cloud-based hosting on Render.
+**Deployment Pipelines:** Managed the transition from local SQLite development to cloud-based hosting on Railway.
 
 ## Author
 Mae Rischer
